@@ -96,8 +96,8 @@ DEG_func <- function(seurat_obj) {
 ################################################################################
 ###########################       INPUTS      ##################################
 ################################################################################
-partial_path <- '.../CellphoneDB_analysis/cellbridge_rds/'
-partial_export_path <-"/cloud-data/its-cmo-darwin-magellan-workspaces-folders/WS_PMCB/RAHMAN.Mouly/Analyses/Analysis_DEG_MAST/"
+partial_path <- '.../CellphoneDB_analysis/processed_seuratobj_rds/'
+partial_export_path <-"/cloud-home/mfr/scrnaseq/Analyses/Analysis_DEG_MAST/"
 
 ################################################################################
 # Skin_Cell_Atlas - Eczema_non_lesion
