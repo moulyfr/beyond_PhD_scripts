@@ -3,11 +3,11 @@
 """
 
 Spyder Editor
-
 scVelo script for python 3.8+ 
 
 """
 
+import os
 import scvelo as scv
 import pandas as pd
 import anndata as ad
@@ -16,30 +16,44 @@ import numpy as np
 # change matplotlib settings to scv settings
 scv.set_figure_params('scvelo')
 
-
 # ---------------------------------------------------------------------------
 # -----------------------------     DATA INPUT   ----------------------------
 # ---------------------------------------------------------------------------
 # read in data (loom, h5ad, csv. etc) w both unspliced+spliced counts
-# data should already be processed for min umi/cell, min gene/cell, batch corr
 
+# ..........................................................................
+# a) if working with looms files, convert to anndata:
+# dirs
+loom_dir = "/cloud-home/mfr/scrnaseq/ingested/ILD_Lung_GSE135893/looms" 
+output_h5ad_file = "/cloud-home/mfr/scrnaseq/ingested/ILD_Lung_GSE135893/looms/combined_data.h5ad"  
 
-# a) ###### if working with seuratobj --> raw/norm/metadata.csv, run following
-raw_counts = pd.read_csv("raw_counts.csv", index_col=0)
-normalized_counts = pd.read_csv("normalized_counts.csv", index_col=0)
-metadata = pd.read_csv("metadata.csv", index_col=0)
-# Convert to numpy arrays
-raw_counts_np = raw_counts.values
-normalized_counts_np = normalized_counts.values
-# create an AnnData object
-adata = ad.AnnData(X=normalized_counts_np, obs=metadata, var=pd.DataFrame(index=raw_counts.columns))
-# sdd raw counts to the AnnData object
-adata.raw = ad.AnnData(X=raw_counts_np, var=pd.DataFrame(index=raw_counts.columns))
-# save AnnData object to file 
-adata.write("adata.h5ad")
-adata = scv.read('adata.h5ad', cache=True)
+# list to hold individual AnnData objects
+adatas = []
 
-# b) ########################################## if working with scvelo dataset
+# loop over each Loom file in the loom_dir
+for loom_file in os.listdir(loom_dir):
+    if loom_file.endswith(".loom"):
+        loom_path = os.path.join(loom_dir, loom_file)
+        sample_name = os.path.splitext(loom_file)[0] 
+        # load Loom file into AnnData
+        adata = scv.read(loom_path, cache=True)
+        # add sample metadata
+        adata.obs['sample'] = sample_name
+        # append to list 
+        adatas.append(adata)
+
+# concat all AnnData objs
+combined_adata = ad.concat(adatas, merge='same')
+
+# save combined AnnData obj
+combined_adata.write(output_h5ad_file)
+print(f"Combined AnnData object saved to {output_h5ad_file}")
+
+# bring in adata
+adata = sc.read(output_h5ad_file, cache=True)
+
+# ..........................................................................
+# b) if working with scvelo dataset:
 # or use built in dataset (4 cell fates; alpha, beta, delta, epsilon cells)
 adata = scv.datasets.pancreas()
 #adata = scv.datasets.dentategyrus()
@@ -51,10 +65,21 @@ adata
 # ---------------------------------------------------------------------------
 # check proportions of spliced vs unspliced counts; usually 10-25% is unspliced (containing introns)
 scv.pl.proportions(adata)
+# data should be processed for min umi/cell, min gene/cell, batch corr
 
-
-scv.pp.normalize_per_cell(adata)
+# use same filters as was done for seurat obj for a particular ds
+sc.pp.filter_cells(adata, min_counts=250)
+sc.pp.filter_cells(adata, min_genes=500)
+# filter genes expressed in fewer than 3 cells
+sc.pp.filter_genes(adata, min_cells=3)
+# mitochondrial gene related qc
+adata.var['mito'] = adata.var_names.str.startswith('MT-')
+adata.obs['percent_mito'] = np.sum(adata[:, adata.var['mito']].X, axis=1) / np.sum(adata.X, axis=1) * 100
+sc.pp.filter_cells(adata, max_percent_mito=10) 
 scv.pp.log1p(adata)
+
+# additional scv filters
+scv.pp.normalize_per_cell(adata)
 scv.pp.filter_genes_dispersion(adata, min_shared_counts=20, n_top_genes=2000)
 scv.pp.moments(adata, n_pcs=30, n_neighbors=30)
 
