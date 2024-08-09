@@ -14,7 +14,7 @@ library(purrr, quietly=TRUE)
 library(Matrix, quietly=TRUE)
 packageVersion('Matrix') # should be >= 1.5-0
 
-rds_directory = '/cloud-data//mfr/scrnaseq/processed_seurat_rds/'
+rds_directory = '/cloud-data/mfr/scrnaseq/processed_seurat_rds/'
 rds_file = 'ILD_Lung_GSE135893_cellbridge.rds'
 
 seurat_obj <- readRDS(file.path(rds_directory, rds_file))
