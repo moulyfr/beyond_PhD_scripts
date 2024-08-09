@@ -8,9 +8,9 @@ packageVersion('Matrix') # should be >= 1.5-0
 
 ############ DEFINE INPUTS #############
 # where all the rds are from 7b
-rds_directory <- '/cloud-data/its-cmo-darwin-magellan-workspaces-folders/WS_PMCB/RAHMAN.Mouly/CellphoneDB_analysis/analysis_Dec2023/cellbridge_rds/'
+rds_directory <- '/cloud-home/mfr/scrnaseq/CellphoneDB_analysis/processed_seuratobj_rds/'
 # where all the matrix.mtx, meta.txt, genes.tsv, barcodes.tsv will go, within each dataset folder
-output_directory <-  '/cloud-data/its-cmo-darwin-magellan-workspaces-folders/WS_PMCB/RAHMAN.Mouly/CellphoneDB_analysis/analysis_Dec2023/cpdb_inputs/'
+output_directory <-  '/cloud-home/mfr/scrnaseq/CellphoneDB_analysis/cpdb_inputs/'
 select_annotation <- 'signacx_cellstates'
 
 ############ CHECK VERSION OF ALL RDS, should be 5.0.1 #############
@@ -30,7 +30,7 @@ for (file_path in rds_files) {
 
 ############ DEFINE INPUTS - B #############
 # indicate rds file splittings
-select_patterns <- list('Skin_Cell_Atlas_cellbridge.rds' = c('disease','site'),
+select_patterns <- list('Skin_Cell_Atlas_cellbridg.rds' = c('disease','site'),
                         'AD_Skin_GSE147424_cellbridge.rds' = 'disease',
                         'AD_Skin_GSE153760_cellbridge.rds' = 'diagnosis',
                         'PSO_Skin_GSE173706_cellbridge.rds' = 'disease',
