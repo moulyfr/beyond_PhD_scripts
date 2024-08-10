@@ -12,7 +12,7 @@ These various scripts conduct the following with processed seurat objects:
 
 6) sc velocity analysis (using scVelo pkg)
 -  in general terms, is used to extract genes involved during dynamic processess (of cell development, differentiation, etc) by examining unspliced vs spliced reads
--  as both unspliced and spliced reads are seq'd, these are used to infer time, since right after a gene turns on, the cell will have unspliced transcripts
+-  as both unspliced and spliced reads are seq'd (and such info is avaialble in the bam files), these are used to infer time, since right after a gene turns on, the cell will have unspliced transcripts
 -  high velocity of a particular cell = gene was just turned on 
 
 7) general graphing scripts
