@@ -25,6 +25,8 @@ sessionInfo()
 ################################################# read in counts --> seurat obj
 # make seurat obj for each sample using unfiltered counts from cellranger
 # list all folders in the current wd, which contains each samples' 3 musketeers
+# if not 3 musketeers, and just csv/tsv genexcount file, Read10x line can be skipped
+
 folders <- basename(list.dirs(path = ".", full.names = TRUE, recursive = FALSE))
 # initialize a list to store Seurat objects
 seurat_objects <- list()
