@@ -16,7 +16,7 @@ FASTQ_OUTPUT_DIR = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/output_f
 COUNT_OUTPUT_DIR = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/output_count'           
 RUN_PATH = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/folder_bcl’                   
 SAMPLE_SHEET = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/sample_sheet.csv'
-FEATURE_BARCODES_FILE = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/feature_barcodes.txt' 
+FEATURE_BARCODES_FILE = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/feature_barcodes.csv' 
 
 def run_cellranger_mkfastq(cellranger_path, run_dir, sample_sheet, output_dir):
     “””convert BCL files to FASTQ using Cell Ranger mkfastq."""
