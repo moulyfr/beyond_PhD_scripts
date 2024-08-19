@@ -15,7 +15,8 @@ REFERENCE_PATH = '/cloud-home/mfr/scrnaseq/admin/human_reference'
 FASTQ_OUTPUT_DIR = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/output_fastq'            
 COUNT_OUTPUT_DIR = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/output_count'           
 RUN_PATH = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/folder_bcl’                   
-SAMPLE_SHEET = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/sample_sheet.csv'            
+SAMPLE_SHEET = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/sample_sheet.csv'
+FEATURE_BARCODES_FILE = '/cloud-home/mfr/scrnaseq/raw_data/experiment_030508/feature_barcodes.txt' 
 
 def run_cellranger_mkfastq(cellranger_path, run_dir, sample_sheet, output_dir):
     “””convert BCL files to FASTQ using Cell Ranger mkfastq."""
@@ -29,7 +30,7 @@ def run_cellranger_mkfastq(cellranger_path, run_dir, sample_sheet, output_dir):
     print(“running Cell Ranger mkfastq with command:", ' '.join(command))
     subprocess.run(command, check=True)
 
-def run_cellranger_count(cellranger_path, fastq_dir, reference_path, output_dir):
+def run_cellranger_count(cellranger_path, fastq_dir, reference_path, output_dir, feature_barcodes_file=None):
     """run Cell Ranger count."""
     command = [
         os.path.join(cellranger_path, 'cellranger'),
@@ -40,6 +41,9 @@ def run_cellranger_count(cellranger_path, fastq_dir, reference_path, output_dir)
         '--sample', 'sample_name'
         ‘—expected-cells’, ‘10000’
     ]
+    if feature_barcodes_file and os.path.exists(feature_barcodes_file): 
+        command += ['--feature-barcode', feature_barcodes_file] 
+
     print(“running Cell Ranger count with command:", ' '.join(command))
     subprocess.run(command, check=True)
 
@@ -48,7 +52,7 @@ def main():
     run_cellranger_mkfastq(CELLRANGER_PATH, RUN_PATH, SAMPLE_SHEET, FASTQ_OUTPUT_DIR)
 
     # run Cell Ranger count
-    run_cellranger_count(CELLRANGER_PATH, FASTQ_OUTPUT_DIR, REFERENCE_PATH, COUNT_OUTPUT_DIR)
+    run_cellranger_count(CELLRANGER_PATH, FASTQ_OUTPUT_DIR, REFERENCE_PATH, COUNT_OUTPUT_DIR, FEATURE_BARCODES_FILE)
 
 if __name__ == "__main__":
     main()
