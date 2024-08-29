@@ -1,4 +1,4 @@
-# scATAC-Seq (single cell assay for transposase-accessible chromatin with seq)
+# scATAC-Seq *(single cell assay for transposase-accessible chromatin with seq)*
 
 - Isolated nuclei treated with a transposes enzyme, usually Tn5, which cuts DNA and inserts seq adapters into regions of open/accessible chromatin (not bound by histones)
 - DNA fragments with adapters are PCR-amp’d for sequencing, which will then inform genome regions that are accessible (=peaks)
