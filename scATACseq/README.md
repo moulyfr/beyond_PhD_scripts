@@ -5,12 +5,13 @@
 - Open regions correlate with active regulatory elements like promoters, enhancer and TF binding sites
 - If scATAC-seq is conducted simultaneous to scRNA-seq, then cell barcodes can be used to unify the cell annotations 
 
-## Preprocessing script:
+## Preprocessing Shell script:
+- *With cellranger-atac mkfastq & cellranger-atac count*
 - demultiplex
 - adaptor trimming
 - alignment
 
-## Processing script:
+## Processing R script:
 - read in raw data (h5), metadata, fragments file, fragments file index
 - peak annotation
 - QC (nucleosome signal, transcriptional start site enrichment score, pct of fragments in peaks, ratio reads in genomic blacklist regions)
