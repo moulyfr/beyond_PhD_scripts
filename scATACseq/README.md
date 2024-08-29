@@ -6,10 +6,12 @@
 - If scATAC-seq is conducted simultaneous to scRNA-seq, then cell barcodes can be used to unify the cell annotations 
 
 ## Preprocessing script:
-- read in raw data (h5), metadata, fragments file, fragments file index
 - demultiplex
 - adaptor trimming
 - alignment
+
+## Processing script:
+- read in raw data (h5), metadata, fragments file, fragments file index
 - peak annotation
 - QC (nucleosome signal, transcriptional start site enrichment score, pct of fragments in peaks, ratio reads in genomic blacklist regions)
   - tot no fragments in peaks = measure of cellular seq depth/complexity
