@@ -1,4 +1,4 @@
-These various scripts conduct the following with processed seurat objects:
+# These various scripts conduct the following with processed seurat objects:
 
 1) cell-cell communication analysis with CellPhoneDB (cpdb) pkg: cpdb-related input prep, running the analysis, filtering results, and lastly conducting a meta-analysis
    
