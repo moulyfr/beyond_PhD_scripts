@@ -4,7 +4,7 @@
   - This will allow for extracting cells of particular feature (e.g. gRNA_A for gene_A) during down-stream analysis
 - For reporter assays (e.g. GFP)
   - Cellranger mkref needs to be ran before running Cellranger mkfastq and count commands
-  - Before running mkref, the reference genome GTF file needs to be updated with the reporter gene annotation
+  - Before running mkref, the reference genome fasta and GTF files needs to be updated with the reporter gene annotation
   - This will allow for extracting cells with the "GFP" feature during down-stream analysis
 
 **2) Processing with Seurat pipeline (for the most part).**
